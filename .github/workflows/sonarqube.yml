@@ -22,7 +22,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '14'
-
+      - name: Run mongose
+        working-directory: WWA-backend-master
+        run: npm mongoose
+        
       - name: Run Jest tests with coverage for WWA-backend-master
         working-directory: WWA-backend-master
         run: npm test -- --coverage
