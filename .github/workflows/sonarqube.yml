@@ -13,23 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Install dependencies for the WWA-backend-master folder
-      - name: Install dependencies for WWA-backend-master
-        working-directory: WWA-backend-master
-        run: npm install
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '14'
-          
-      - name: Run mongose
-        working-directory: WWA-backend-master
-        run: npm install mongoose
-        
-      - name: Run Jest tests with coverage for WWA-backend-master
-        working-directory: WWA-backend-master
-        run: npm test -- --coverage
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Jest tests
+        run: npm install jest --prefix WWA-backend-master
+
+      - name: Run Jest tests with coverage
+        run: npm test --prefix WWA-backend-master -- --coverage
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -46,5 +42,5 @@ jobs:
         with:
           args:
             -Dsonar.projectKey=group2
-            -Dsonar.coverage.javascript.lcovReportPaths=WWA-backend-master/coverage/lcov.info
+            -Dsonar.coverage.javascript.lcovReportPaths=coverage/lcov.info
             # Add other SonarQube analysis parameters as needed
