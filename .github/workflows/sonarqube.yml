@@ -19,10 +19,10 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Run Jest tests
-        run: npm install jest --prefix WWA-backend-master
+        run: yarn
+        
+      - name: Test and coverage
+        run: yarn jest --coverage
 
       - name: Run Jest tests with coverage
         run: npm test --prefix WWA-backend-master -- --coverage
