@@ -19,10 +19,13 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: yarn
-        
-      - name: Test and coverage
-        run: yarn jest --prefix WWA-backend-master -- --coverage
+        run: npm install
+
+      - name: Run Jest tests
+        run: npm install jest --prefix WWA-backend-master
+
+      - name: Run Jest tests with coverage
+        run: npm test --prefix WWA-backend-master -- --coverage
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
