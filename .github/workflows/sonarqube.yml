@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Run Jest tests with coverage for WWA-backend-master
-        run: npm test --prefix WWA-backend-master -- --coverage || true
+        run: npm test --prefix WWA-backend-master -- --coverage 
         # Using || true will ignore test failures and proceed with the next step
 
       - name: Set up JDK 17
