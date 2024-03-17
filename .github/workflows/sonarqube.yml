@@ -1,10 +1,10 @@
-name: SonarQube Analysis
+name: SonarQube and Snyk Analysis
 on:
   push:
     branches:
       - main
 jobs:
-  sonarqube_analysis:
+  build_and_scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,9 +16,16 @@ jobs:
       - name: Install dependencies
         run: cd WWA-backend-master && npm install
       - name: Run Jest tests with coverage
-        run: cd WWA-backend-master && npm test -- --coverage || true
-        # Run tests with coverage, ignoring failures with '|| true'
-      - name: Set up JDK 17
+        run: cd WWA-backend-master && npm test -- --coverage
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --project-name=Project-Shetty --severity-threshold=high
+          command: test
+          json: true
+      - name: Set up JDK 17 (Required by SonarScanner)
         uses: actions/setup-java@v2
         with:
           java-version: '17'
@@ -30,10 +37,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
-          args:
-            -Dsonar.projectKey=group2
-            -Dsonar.sources=.
+          args: >
+            -Dsonar.projectKey=Project-Shetty
+            -Dsonar.sources=WWA-backend-master
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
             -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
-            # Add other SonarQube analysis parameters as needed
