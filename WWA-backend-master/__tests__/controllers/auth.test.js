@@ -1,9 +1,7 @@
 const { SignupController, LoginController, ForgotController, LogoutController } = require("../../controllers/authController");
 const User = require("../../model/User");
 let request, response;
-
 jest.mock("../../model/User");
-
 beforeEach(() => {
     request = {
         body: {
@@ -12,14 +10,13 @@ beforeEach(() => {
             email: "email",
             password: "password",
             cpassword: "password"
-
         }
-    }
-    response = {
-        status: jest.fn((x) => x),
-        json: jest.fn((x) => x),
     };
-})
+    response = {
+        status: jest.fn().mockReturnThis(), // Corrected for method chaining
+        json: jest.fn()
+    };
+});
 
 
 
