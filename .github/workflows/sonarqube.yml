@@ -19,10 +19,10 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: WWA-backend-master/npm install
+        run: cd WWA-backend-master && npm install
 
       - name: Run Jest tests with coverage
-        run: WWA-backend-master/npm test -- --coverage || true
+        run: cd WWA-backend-master && npm test -- --coverage || true
         # Run tests with coverage, ignoring failures with '|| true'
 
       - name: Set up JDK 17
