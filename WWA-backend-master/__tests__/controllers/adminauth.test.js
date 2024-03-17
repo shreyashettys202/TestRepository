@@ -5,7 +5,6 @@ module.exports = {
     // Optional: Specify the directory where Jest should output its coverage files
     coverageDirectory: "coverage",
 };
-10:16
 const { AdminSignupController, AdminLoginController, AdminForgotController, AdminLogoutController } = require("../../controllers/adminAuthController");
 const User = require("../../model/User");
 let request, response;
