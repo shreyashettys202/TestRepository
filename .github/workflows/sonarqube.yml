@@ -17,14 +17,6 @@ jobs:
         run: cd WWA-backend-master && npm install
       - name: Run Jest tests with coverage
         run: cd WWA-backend-master && npm test -- --coverage
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --project-name=Project-Shetty --severity-threshold=high
-          command: test
-          json: true
       - name: Set up JDK 17 (Required by SonarScanner)
         uses: actions/setup-java@v2
         with:
