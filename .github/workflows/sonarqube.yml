@@ -1,4 +1,4 @@
-name: Snyk Scan
+name: Snyk Scan Test AB
 on:
   push:
     branches:
@@ -62,10 +62,6 @@ jobs:
                 
   # Snyk security scan step for Code Scanning
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20' # Adjust the version as needed
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true
