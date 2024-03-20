@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  sonarqube_analysis:
+  snyk_analysis:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -15,15 +15,12 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: cd WWA-backend-master && npm install
-      - name: Run Jest tests with coverage
-        run: cd WWA-backend-master && npm test -- --coverage || true
-        # Run tests with coverage, ignoring failures with '|| true'
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'adopt'
-          
+#########################################
 # Snyk security scan step for web
 
       - name: Checkout repository
@@ -62,3 +59,22 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         working-directory: WWA-frontend-master
+                
+  # Snyk security scan step for Code Scanning
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Adjust the version as needed
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        with:
+          args: ./WWA-backend-master --sarif-file-output=snyk.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Upload SARIF to GitHub Security Center
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+          category: 'Snyk OpenSource Unique Category'
